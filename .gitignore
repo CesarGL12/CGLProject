@@ -1,1 +1,4 @@
 .DS_Store
+data/en.csv
+data/es.csv
+data/fr.csv
