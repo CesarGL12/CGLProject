@@ -2,6 +2,7 @@ import os
 import pandas as pd
 from sklearn.metrics import accuracy_score
 from transformers import pipeline
+from sklearn.metrics import classification_report, confusion_matrix
 
 # Ensure results directory exists
 os.makedirs("results", exist_ok=True)
@@ -29,7 +30,7 @@ for lang in languages:
     df = pd.read_csv(f"data/sample/{lang}_sample.csv")
 
     # Optional: use smaller sample for faster evaluation
-    df = df.sample(n=300, random_state=42) if len(df) > 300 else df
+    #df = df.sample(n=300, random_state=42) if len(df) > 300 else df
 
     predictions = []
     true_labels = []
