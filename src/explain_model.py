@@ -105,28 +105,3 @@ def explain_file(filepath):
     results_df.to_csv(output_path, index=False)
 
     print(f"\nSaved explanations to {output_path}")
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--text", type=str, help="Input sentence")
-    parser.add_argument("--lang", type=str, default="en", help="Language (en/es/fr)")
-    parser.add_argument("--file", type=str, help="CSV file path")
-
-    args = parser.parse_args()
-
-    if args.text:
-        sentiment, confidence, important_words = explain_text(args.text, args.lang)
-
-        print(f"\nText: {args.text}")
-        print(f"Prediction: {sentiment} ({confidence:.2f})")
-        print("Important words:")
-        for word, score in important_words[:5]:
-            direction = "supports prediction" if score > 0 else "opposes prediction"
-            print(f"{word} → {direction} ({score:.4f})")
-
-    elif args.file:
-        explain_file(args.file)
-
-    else:
-        print("Provide either --text or --file")
