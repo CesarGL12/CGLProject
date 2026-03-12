@@ -1,15 +1,13 @@
 import os
 import pandas as pd
 from sklearn.metrics import accuracy_score
-from transformers import pipeline
 from sklearn.metrics import classification_report, confusion_matrix
+from sentiment_model import SentimentModel
+
+model = SentimentModel()
 
 # Ensure results directory exists
 os.makedirs("results", exist_ok=True)
-
-# Load pretrained multilingual sentiment model
-model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
-classifier = pipeline("sentiment-analysis", model=model_name)
 
 def map_sentiment(result):
     label = result["label"]   # e.g., "4 stars"
@@ -42,8 +40,14 @@ for lang in languages:
         text = row["text"]
         true_label = row["label"]
 
-        raw = classifier(text, truncation=True, max_length=512)[0]
-        pred_label = map_sentiment(raw)
+        sentiment, confidence, scores = model.predict(text)
+
+        if sentiment == "Negative":
+            pred_label = 0
+        elif sentiment == "Neutral":
+            pred_label = 1
+        else:
+            pred_label = 2
 
         predictions.append(pred_label)
         true_labels.append(true_label)

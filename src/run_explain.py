@@ -1,5 +1,7 @@
 from explain_model import explain_text
 
+SUPPORTED_LANGS = {"en", "es", "fr"}
+
 def main():
     print("\nMultilingual Sentiment Explanation System")
     print("-----------------------------------------")
@@ -14,6 +16,10 @@ def main():
     if lang == "":
         lang = "en"
 
+    if lang not in SUPPORTED_LANGS:
+        print("Unsupported language. Using English.")
+        lang = "en"
+
     sentiment, confidence, important_words = explain_text(text, lang)
 
     print("\nPrediction:")
@@ -26,6 +32,7 @@ def main():
     else:
         for word, score in important_words[:5]:
             print(f"- {word}")
+
 
 if __name__ == "__main__":
     main()
