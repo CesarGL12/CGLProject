@@ -2,20 +2,14 @@ import argparse
 import pandas as pd
 import re
 import os
-from transformers import pipeline
 
 # Create results folder
 os.makedirs("results", exist_ok=True)
 
-# Load model
-model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
-classifier = pipeline(
-    "sentiment-analysis",
-    model=model_name,
-    top_k=None,
-    truncation=True,
-    max_length=512
-)
+from sentiment_model import SentimentModel
+
+model = SentimentModel()
+classifier = model.classifier
 
 STOPWORDS = {
     "en": {"this", "a", "the", "is", "was", "but", "and", "of", "to", "in"},
