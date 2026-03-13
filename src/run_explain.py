@@ -1,8 +1,8 @@
-from explain_model import explain_text
+from prediction_service import explain_text
 
-SUPPORTED_LANGS = {"en", "es", "fr"}
 
 def main():
+
     print("\nMultilingual Sentiment Explanation System")
     print("-----------------------------------------")
 
@@ -13,25 +13,22 @@ def main():
         return
 
     lang = input("Language (en/es/fr) [default=en]: ").strip().lower()
+
     if lang == "":
         lang = "en"
 
-    if lang not in SUPPORTED_LANGS:
-        print("Unsupported language. Using English.")
-        lang = "en"
-
-    sentiment, confidence, important_words = explain_text(text, lang)
+    result = explain_text(text, lang)
 
     print("\nPrediction:")
-    print(f"{sentiment} ({confidence:.2f})")
+    print(f"{result['prediction']} ({result['confidence']:.2f})")
 
     print("\nKey words:")
 
-    if not important_words:
+    if not result["important_words"]:
         print("No strong influential words detected.")
     else:
-        for word, score in important_words[:5]:
-            print(f"- {word}")
+        for item in result["important_words"][:5]:
+            print(f"- {item['word']}")
 
 
 if __name__ == "__main__":

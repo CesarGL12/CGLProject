@@ -1,8 +1,5 @@
-from sentiment_model import SentimentModel
+from prediction_service import predict_text
 
-model = SentimentModel()
-
-# Sample test sentences in all 3 languages
 samples = {
     "en": "This movie was amazing!",
     "es": "Esta película fue terrible.",
@@ -12,9 +9,10 @@ samples = {
 print("\n=== BASELINE SENTIMENT RESULTS ===\n")
 
 for lang, text in samples.items():
-    sentiment, confidence, _ = model.predict(text)
 
-    print(f"Language: {lang}")
-    print(f"Text: {text}")
-    print(f"Prediction: {sentiment}")
-    print(f"Confidence: {confidence:.3f}\n")
+    result = predict_text(text, lang)
+
+    print(f"Language: {result['language']}")
+    print(f"Text: {result['text']}")
+    print(f"Prediction: {result['prediction']}")
+    print(f"Confidence: {result['confidence']:.3f}\n")
