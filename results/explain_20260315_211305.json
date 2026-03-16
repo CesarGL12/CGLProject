@@ -1,0 +1,20 @@
+{
+  "text": "Me gustaba este lugar pero ahora es feo",
+  "language": "es",
+  "prediction": "Neutral",
+  "confidence": 0.3869,
+  "important_words": [
+    {
+      "word": "ahora",
+      "importance": -0.1081
+    },
+    {
+      "word": "lugar",
+      "importance": -0.0894
+    },
+    {
+      "word": "feo",
+      "importance": 0.0583
+    }
+  ]
+}
