@@ -1,0 +1,7 @@
+2026-03-15 21:13:04,934 | INFO | Run started
+2026-03-15 21:13:04,934 | INFO | Mode: explain
+2026-03-15 21:13:04,934 | INFO | Model: nlptown/bert-base-multilingual-uncased-sentiment
+2026-03-15 21:13:04,934 | INFO | Log file: results/logs/explain_20260315_211304.log
+2026-03-15 21:13:05,870 | INFO | Input text: Me gustaba este lugar pero ahora es feo
+2026-03-15 21:13:05,870 | INFO | Prediction: Neutral
+2026-03-15 21:13:05,870 | INFO | Results saved to results/explain_20260315_211305.json

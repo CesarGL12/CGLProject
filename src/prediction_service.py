@@ -1,6 +1,8 @@
 from sentiment_model import SentimentModel
 from explain_model import explain_text as explain_algorithm
 
+MODEL_NAME = "nlptown/bert-base-multilingual-uncased-sentiment"
+
 model = SentimentModel()
 
 
