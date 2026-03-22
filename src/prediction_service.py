@@ -73,3 +73,44 @@ def baseline_predict(text: str) -> str:
         return "negative"
     else:
         return "neutral"
+        
+import pandas as pd
+
+def evaluate_models():
+    """
+    Compare model vs baseline on sample datasets.
+    Returns accuracy dictionary.
+    """
+
+    paths = [
+        "data/sample/en_sample.csv",
+        "data/sample/es_sample.csv",
+        "data/sample/fr_sample.csv"
+    ]
+
+    total = 0
+    correct_model = 0
+    correct_baseline = 0
+
+    for path in paths:
+        df = pd.read_csv(path)
+
+        for _, row in df.iterrows():
+            text = row["text"]
+            true_label = row["label"]
+
+            model_pred = predict_text(text)["prediction"]
+            baseline_pred = baseline_predict(text)
+
+            if model_pred == true_label:
+                correct_model += 1
+
+            if baseline_pred == true_label:
+                correct_baseline += 1
+
+            total += 1
+
+    return {
+        "model_accuracy": round(correct_model / total, 4),
+        "baseline_accuracy": round(correct_baseline / total, 4)
+    }

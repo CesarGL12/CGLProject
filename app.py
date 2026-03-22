@@ -10,17 +10,25 @@ def index():
     baseline = None
     important_words = None
     text = ""
+    language = "en"
+    error = None
 
     if request.method == "POST":
-        text = request.form["text"]
+        text = request.form.get("text", "").strip()
+        language = request.form.get("language", "en")
 
-        result = predict_text(text)
-        explanation = explain_text(text)
+        if not text:
+            error = "Please enter some text before analyzing."
+        elif len(text) > 500:
+            error = "Text is too long (max 500 characters)."
+        else:
+            result = predict_text(text, language)
+            explanation = explain_text(text, language)
 
-        prediction = result["prediction"]
-        confidence = result["confidence"]
-        baseline = baseline_predict(text)
-        important_words = explanation["important_words"]
+            prediction = result["prediction"]
+            confidence = result["confidence"]
+            baseline = baseline_predict(text)
+            important_words = explanation["important_words"]
 
     return render_template(
         "index.html",
@@ -28,7 +36,9 @@ def index():
         confidence=confidence,
         baseline=baseline,
         important_words=important_words,
-        text=text
+        text=text,
+        language=language,
+        error=error
     )
 
 if __name__ == "__main__":

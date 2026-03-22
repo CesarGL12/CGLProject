@@ -46,8 +46,21 @@
 <div class="container">
     <h1>Multilingual Sentiment Analyzer</h1>
     <p>Compare AI model vs baseline + explanation</p>
+    
+    {% if error %}
+    <div style="color: red; margin-bottom: 15px;">
+        {{ error }}
+    </div>
+    {% endif %}
 
     <form method="POST">
+        <label for="language">Select Language:</label><br>
+        <select name="language">
+            <option value="en" {% if language == "en" %}selected{% endif %}>English</option>
+            <option value="es" {% if language == "es" %}selected{% endif %}>Spanish</option>
+            <option value="fr" {% if language == "fr" %}selected{% endif %}>French</option>
+        </select>
+        <br><br>
         <textarea name="text" rows="5" placeholder="Enter text here...">{{ text }}</textarea>
         <button type="submit">Analyze</button>
     </form>
