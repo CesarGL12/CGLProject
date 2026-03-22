@@ -6,7 +6,7 @@ import os
 # Create results folder
 os.makedirs("results", exist_ok=True)
 
-from sentiment_model import SentimentModel
+from src.sentiment_model import SentimentModel
 
 model = SentimentModel()
 classifier = model.classifier
