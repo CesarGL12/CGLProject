@@ -28,7 +28,11 @@ def index():
             prediction = result["prediction"]
             confidence = result["confidence"]
             baseline = baseline_predict(text)
-            important_words = explanation["important_words"]
+
+            if explanation["prediction"] == prediction:
+                important_words = explanation["important_words"]
+            else:
+                important_words = []
 
     return render_template(
         "index.html",

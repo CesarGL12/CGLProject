@@ -74,14 +74,27 @@
 
             <h3>Baseline Prediction:</h3>
             <p>{{ baseline }}</p>
-
-            <h3>Important Words:</h3>
-            <ul>
-                {% for item in important_words %}
-                    <li><b>{{ item.word }}</b>: {{ item.importance }}</li>
-                {% endfor %}
-            </ul>
         </div>
+    {% endif %}
+    
+    {% if important_words %}
+    <h3>Explanation (Why this prediction?)</h3>
+    <p>The model focused on these important words:</p>
+    <ul>
+    {% for item in important_words %}
+    <li>
+        <span style="color: {% if item.importance > 0 %}green{% else %}red{% endif %}; font-weight: bold;">
+            {{ item.word }}
+        </span>
+        : {{ item.importance | round(3) }}
+        {% if item.importance > 0 %}
+            (positive influence)
+        {% else %}
+            (negative influence)
+        {% endif %}
+    </li>
+    {% endfor %}
+    </ul>
     {% endif %}
 </div>
 
