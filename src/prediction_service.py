@@ -68,11 +68,11 @@ def baseline_predict(text: str) -> str:
     neg_count = sum(word in text_lower for word in negative_words)
 
     if pos_count > neg_count:
-        return "positive"
+        return "Positive"
     elif neg_count > pos_count:
-        return "negative"
+        return "Negative"
     else:
-        return "neutral"
+        return "Neutral"
         
 import pandas as pd
 
