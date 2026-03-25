@@ -66,15 +66,46 @@
     </form>
 
     {% if prediction %}
-        <div class="result">
-            <h2>Model Prediction: 
-                <span class="{{ prediction }}">{{ prediction }}</span>
-            </h2>
-            <p><strong>Confidence:</strong> {{ confidence }}</p>
+    <div class="result">
 
-            <h3>Baseline Prediction:</h3>
-            <p>{{ baseline }}</p>
-        </div>
+        <h2>Comparison of Approaches</h2>
+
+        <table style="width:100%; border-collapse: collapse; text-align: center;">
+            <tr>
+                <th style="border-bottom: 2px solid black;">Approach</th>
+                <th style="border-bottom: 2px solid black;">Prediction</th>
+                <th style="border-bottom: 2px solid black;">Confidence</th>
+            </tr>
+
+            <tr>
+                <td><strong>Model (BERT)</strong></td>
+                <td class="{{ prediction }}">{{ prediction }}</td>
+                <td>{{ confidence }}</td>
+            </tr>
+            
+            <tr>
+                <td><strong>Baseline (Rule-Based)</strong></td>
+                <td>{{ baseline }}</td>
+                <td>N/A</td>
+            </tr>
+            
+    </table>
+    
+    <p style="margin-top: 10px;">
+    The model uses a deep learning approach, while the baseline uses simple keyword rules.
+    </p>
+    
+    {% if prediction != baseline %}
+        <p style="color: orange;">
+            The two approaches disagree on this input.
+        </p>
+    {% else %}
+        <p style="color: green;">
+            Both approaches agree on this prediction.
+        </p>
+    {% endif %}
+
+</div>
     {% endif %}
     
     {% if important_words %}
