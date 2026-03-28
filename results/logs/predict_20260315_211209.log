@@ -1,8 +1,0 @@
-2026-03-15 21:12:09,797 | INFO | Run started
-2026-03-15 21:12:09,797 | INFO | Mode: predict
-2026-03-15 21:12:09,797 | INFO | Model: nlptown/bert-base-multilingual-uncased-sentiment
-2026-03-15 21:12:09,797 | INFO | Log file: results/logs/predict_20260315_211209.log
-2026-03-15 21:12:10,963 | INFO | Input text: This movie was amazing
-2026-03-15 21:12:10,964 | INFO | Prediction: Positive
-2026-03-15 21:12:10,964 | INFO | Confidence: 0.8165
-2026-03-15 21:12:10,964 | INFO | Results saved to results/predict_20260315_211210.json

@@ -1,0 +1,17 @@
+{
+    "english":{
+        "total":600,
+        "model_accuracy":0.595,
+        "baseline_accuracy":0.3667
+    },
+    "spanish":{
+        "total":600,
+        "model_accuracy":0.7583,
+        "baseline_accuracy":0.3267
+    },
+    "french":{
+        "total":600,
+        "model_accuracy":0.7333,
+        "baseline_accuracy":0.3467
+    }
+}

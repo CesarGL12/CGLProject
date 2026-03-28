@@ -31,11 +31,19 @@ class SentimentModel:
 
         scores = {int(item["label"][0]): item["score"] for item in outputs}
 
-        weighted_score = sum(star * prob for star, prob in scores.items())
+        #weighted_score = sum(star * prob for star, prob in scores.items())
 
-        if weighted_score <= 2:
+#         if weighted_score < 2.5:
+#             sentiment = "Negative"
+#         elif weighted_score < 3.5:
+#             sentiment = "Neutral"
+#         else:
+#             sentiment = "Positive"
+        best_star = max(scores, key=scores.get)
+
+        if best_star in [1, 2]:
             sentiment = "Negative"
-        elif weighted_score < 4:
+        elif best_star == 3:
             sentiment = "Neutral"
         else:
             sentiment = "Positive"
