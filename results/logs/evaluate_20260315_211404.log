@@ -1,7 +1,0 @@
-2026-03-15 21:14:04,737 | INFO | Run started
-2026-03-15 21:14:04,737 | INFO | Mode: evaluate
-2026-03-15 21:14:04,737 | INFO | Model: nlptown/bert-base-multilingual-uncased-sentiment
-2026-03-15 21:14:04,737 | INFO | Log file: results/logs/evaluate_20260315_211404.log
-2026-03-15 21:15:05,743 | INFO | Evaluating file: data/sample/en_sample.csv
-2026-03-15 21:15:05,743 | INFO | Accuracy: 0.5316666666666666
-2026-03-15 21:15:05,744 | INFO | Results saved to results/evaluation_20260315_211505.json
