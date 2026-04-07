@@ -1,0 +1,4 @@
+dataset,model,num_samples,model_accuracy,baseline_accuracy
+spanish,bert-multilingual,600,0.7583,0.3267
+french,bert-multilingual,600,0.7333,0.3467
+english,bert-multilingual,600,0.595,0.3667

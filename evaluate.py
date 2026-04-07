@@ -1,3 +1,4 @@
+import json
 import os
 import pandas as pd
 from datetime import datetime
@@ -82,11 +83,30 @@ def evaluate_dataset(file_path):
     print(classification_report(y_true, y_pred))
 
     return {
-        "total": total,
+        "dataset": os.path.basename(file_path),
+        "model": "bert-multilingual",
+        "num_samples": total,
         "model_accuracy": round(correct_model / total, 4),
         "baseline_accuracy": round(correct_baseline / total, 4)
     }
 
+def save_results(results_list):
+    os.makedirs("results", exist_ok=True)
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    # JSON file
+    json_path = f"results/evaluation_{timestamp}.json"
+    with open(json_path, "w") as f:
+        json.dump(results_list, f, indent=4)
+
+    # CSV file
+    csv_path = f"results/evaluation_{timestamp}.csv"
+    df = pd.DataFrame(results_list)
+    df = df.sort_values(by="model_accuracy", ascending=False)
+    df.to_csv(csv_path, index=False)
+
+    print(f"Results saved to:\n- {json_path}\n- {csv_path}")
 
 def main():
     datasets = {
@@ -95,22 +115,20 @@ def main():
         "french": "data/sample/fr_sample.csv"
     }
 
-    results = {}
+    results = []
 
     for name, path in datasets.items():
         print(f"Evaluating {name} dataset...")
-        results[name] = evaluate_dataset(path)
-
-    # Timestamp for file
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_file = f"results/evaluation_{timestamp}.json"
-
-    # Save results
-    pd.Series(results).to_json(output_file, indent=4)
+        
+        result = evaluate_dataset(path)
+        result["dataset"] = name  # cleaner label
+        
+        results.append(result)
 
     print("\nEvaluation complete!")
     print(results)
-    print(f"\nResults saved to {output_file}")
+
+    save_results(results)
 
 if __name__ == "__main__":
     main()
