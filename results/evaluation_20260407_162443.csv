@@ -1,0 +1,7 @@
+dataset,model,num_samples,accuracy
+english,baseline,600,0.3667
+french,baseline,600,0.3467
+spanish,baseline,600,0.3267
+english,bert,0,0.0
+spanish,bert,0,0.0
+french,bert,0,0.0

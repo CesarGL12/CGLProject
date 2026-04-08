@@ -1,0 +1,4 @@
+dataset,baseline,bert
+english,0.3667,0.0
+french,0.3467,0.0
+spanish,0.3267,0.0
