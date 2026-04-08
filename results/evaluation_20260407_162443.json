@@ -1,0 +1,38 @@
+[
+    {
+        "dataset": "english",
+        "model": "bert",
+        "num_samples": 0,
+        "accuracy": 0
+    },
+    {
+        "dataset": "english",
+        "model": "baseline",
+        "num_samples": 600,
+        "accuracy": 0.3667
+    },
+    {
+        "dataset": "spanish",
+        "model": "bert",
+        "num_samples": 0,
+        "accuracy": 0
+    },
+    {
+        "dataset": "spanish",
+        "model": "baseline",
+        "num_samples": 600,
+        "accuracy": 0.3267
+    },
+    {
+        "dataset": "french",
+        "model": "bert",
+        "num_samples": 0,
+        "accuracy": 0
+    },
+    {
+        "dataset": "french",
+        "model": "baseline",
+        "num_samples": 600,
+        "accuracy": 0.3467
+    }
+]

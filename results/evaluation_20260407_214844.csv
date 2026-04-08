@@ -1,0 +1,4 @@
+num_samples,bert_accuracy,baseline_accuracy,dataset
+600,0.7583,0.3267,spanish
+600,0.7333,0.3467,french
+600,0.595,0.3667,english
