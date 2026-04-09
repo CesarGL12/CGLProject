@@ -62,7 +62,7 @@
         </select>
         <br><br>
         <textarea name="text" rows="5" placeholder="Enter text here...">{{ text }}</textarea>
-        <button type="submit">Analyze</button>
+        <button type="submit" name="analyze_text">Analyze</button>
     </form>
 
     {% if prediction %}
@@ -128,6 +128,44 @@
     </ul>
     {% endif %}
 </div>
+
+<hr>
+
+<h2>Dataset Evaluation</h2>
+
+<form method="POST">
+    <label>Select Dataset:</label><br>
+    <select name="dataset" required>
+        {% for d in datasets %}
+            <option value="{{ d }}">{{ d }}</option>
+        {% endfor %}
+    </select>
+    <br><br>
+
+    <button type="submit" name="run_evaluation">Run Evaluation</button>
+</form>
+
+{% if eval_result %}
+<div class="result">
+    <h3>Evaluation Results</h3>
+
+    <table style="width:100%; border-collapse: collapse; text-align: center;">
+        <tr>
+            <th>Dataset</th>
+            <th>Samples</th>
+            <th>BERT Accuracy</th>
+            <th>Baseline Accuracy</th>
+        </tr>
+
+        <tr>
+            <td>{{ eval_result.dataset }}</td>
+            <td>{{ eval_result.num_samples }}</td>
+            <td>{{ eval_result.bert_accuracy }}</td>
+            <td>{{ eval_result.baseline_accuracy }}</td>
+        </tr>
+    </table>
+</div>
+{% endif %}
 
 </body>
 </html>
