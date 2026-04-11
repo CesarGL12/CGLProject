@@ -1,0 +1,20 @@
+[
+    {
+        "num_samples": 600,
+        "bert_accuracy": 0.595,
+        "baseline_accuracy": 0.3667,
+        "dataset": "english"
+    },
+    {
+        "num_samples": 600,
+        "bert_accuracy": 0.7583,
+        "baseline_accuracy": 0.3267,
+        "dataset": "spanish"
+    },
+    {
+        "num_samples": 600,
+        "bert_accuracy": 0.7333,
+        "baseline_accuracy": 0.3467,
+        "dataset": "french"
+    }
+]

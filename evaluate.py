@@ -6,6 +6,9 @@ from sklearn.metrics import classification_report
 
 from src.prediction_service import predict_text, baseline_predict
 
+from logger import setup_logger
+logger = setup_logger()
+
 # Ensure results directory exists
 os.makedirs("results", exist_ok=True)
 
@@ -37,6 +40,10 @@ def evaluate_dataset(file_path, models):
     def map_label(label):
         return ["negative", "neutral", "positive"][label] if label in [0,1,2] else None
 
+    if "text" not in df.columns or "label" not in df.columns:
+        logger.error("Dataset missing required columns")
+        return {"error": "Invalid dataset format"}
+    
     for _, row in df.iterrows():
         text = row["text"]
         true_label = map_label(row["label"])
@@ -48,7 +55,21 @@ def evaluate_dataset(file_path, models):
         y_true.append(true_label)
 
         for model_name, model_func in models.items():
-            pred = model_func(text)
+            #pred = model_func(text)
+            try:
+                pred = model_func(text)
+
+                if isinstance(pred, dict):
+                    pred = pred.get("prediction", "")
+
+                if not isinstance(pred, str):
+                    pred = ""
+
+                pred = pred.strip().lower()
+
+            except Exception as e:
+                logger.error(f"Prediction error: {e}")
+                pred = ""
 
             # Handle dict vs string output
             if isinstance(pred, dict):
@@ -176,7 +197,8 @@ def main():
     results = []
 
     for name, path in datasets.items():
-        print(f"Evaluating {name} dataset...")
+        #print(f"Evaluating {name} dataset...")
+        logger.info(f"Evaluating dataset: {name}")
         
         result = evaluate_dataset(path, MODELS)
         result["dataset"] = name
@@ -184,7 +206,8 @@ def main():
         results.append(result)
 
     print("\nEvaluation complete!")
-    print(results)
+    #print(results)
+    logger.info(f"Results: {results}")
 
     save_results(results)
 

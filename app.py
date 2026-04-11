@@ -103,8 +103,13 @@ def index():
             path = DATASETS.get(dataset_name)
 
             if path:
-                eval_result = evaluate_dataset(path, MODELS)
-                eval_result["dataset"] = dataset_name
+                #eval_result = evaluate_dataset(path, MODELS)
+                #eval_result["dataset"] = dataset_name
+                try:
+                    eval_result = evaluate_dataset(path, MODELS)
+                    eval_result["dataset"] = dataset_name
+                except Exception as e:
+                    error = f"Evaluation failed: {str(e)}"
 
     return render_template(
         "index.html",
@@ -120,4 +125,5 @@ def index():
     )
 
 if __name__ == "__main__":
+    print("Server running at: http://127.0.0.1:5000")
     app.run(debug=True)
