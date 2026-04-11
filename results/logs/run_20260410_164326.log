@@ -1,0 +1,4 @@
+2026-04-10 16:43:26,091 - INFO - Evaluating dataset: english
+2026-04-10 16:44:17,566 - INFO - Evaluating dataset: spanish
+2026-04-10 16:44:51,536 - INFO - Evaluating dataset: french
+2026-04-10 16:45:31,329 - INFO - Results: [{'num_samples': 600, 'bert_accuracy': 0.595, 'baseline_accuracy': 0.3667, 'dataset': 'english'}, {'num_samples': 600, 'bert_accuracy': 0.7583, 'baseline_accuracy': 0.3267, 'dataset': 'spanish'}, {'num_samples': 600, 'bert_accuracy': 0.7333, 'baseline_accuracy': 0.3467, 'dataset': 'french'}]
