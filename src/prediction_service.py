@@ -1,12 +1,15 @@
 from src.sentiment_model import SentimentModel
 from src.explain_model import explain_text as explain_algorithm
 
+import pandas as pd
+
 MODEL_NAME = "nlptown/bert-base-multilingual-uncased-sentiment"
 
 model = SentimentModel()
 
 
-def predict_text(text: str, language: str = "en"):
+#def predict_text(text: str, language: str = "en"):
+def predict_text(text: str):
     """
     Predict sentiment for a given text.
 
@@ -17,7 +20,7 @@ def predict_text(text: str, language: str = "en"):
 
     result = {
         "text": text,
-        "language": language,
+        #"language": language,
         "prediction": sentiment,
         "confidence": round(confidence, 4),
         "scores": scores
@@ -26,18 +29,19 @@ def predict_text(text: str, language: str = "en"):
     return result
 
 
-def explain_text(text: str, language: str = "en"):
+#def explain_text(text: str, language: str = "en"):
+def explain_text(text: str):
     """
     Generate sentiment explanation for text.
 
     Returns standardized dictionary.
     """
 
-    sentiment, confidence, important_words = explain_algorithm(text, language)
+    sentiment, confidence, important_words = explain_algorithm(text)
 
     result = {
         "text": text,
-        "language": language,
+        #"language": language,
         "prediction": sentiment,
         "confidence": round(confidence, 4),
         "important_words": [
@@ -73,8 +77,6 @@ def baseline_predict(text: str) -> str:
         return "Negative"
     else:
         return "Neutral"
-        
-import pandas as pd
 
 #def map_label(label):
 #    try:

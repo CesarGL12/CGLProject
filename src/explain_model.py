@@ -36,7 +36,48 @@ def get_prediction(text):
     return sentiment, confidence, scores
 
 
-def explain_text(text, language="en"):
+# #def explain_text(text, language="en"):
+# def explain_text(text):
+#     words = re.findall(r"\b\w+\b", text)
+# 
+#     base_sentiment, base_conf, base_scores = get_prediction(text)
+#     base_star = max(base_scores, key=base_scores.get)
+#     base_prob = base_scores[base_star]
+# 
+#     modified_texts = []
+#     valid_words = []
+# 
+#     for i, word in enumerate(words):
+#         #if word.lower() in STOPWORDS.get(language, set()):
+#             continue
+# 
+#         modified = words[:i] + words[i+1:]
+#         modified_texts.append(" ".join(modified))
+#         valid_words.append(word)
+# 
+#     if not modified_texts:
+#         return base_sentiment, base_conf, []
+# 
+#     batch_outputs = classifier(modified_texts)
+# 
+#     word_importance = []
+# 
+#     for word, output in zip(valid_words, batch_outputs):
+#         scores = {int(item["label"][0]): item["score"] for item in output}
+#         new_prob = scores.get(base_star, 0)
+# 
+#         importance = base_prob - new_prob
+# 
+#         if abs(importance) > 0.02:
+#             word_importance.append((word, importance))
+# 
+#     word_importance.sort(key=lambda x: abs(x[1]), reverse=True)
+# 
+#     return base_sentiment, base_conf, word_importance
+
+ALL_STOPWORDS = set().union(*STOPWORDS.values())
+
+def explain_text(text):
     words = re.findall(r"\b\w+\b", text)
 
     base_sentiment, base_conf, base_scores = get_prediction(text)
@@ -47,7 +88,7 @@ def explain_text(text, language="en"):
     valid_words = []
 
     for i, word in enumerate(words):
-        if word.lower() in STOPWORDS.get(language, set()):
+        if word.lower() in ALL_STOPWORDS:
             continue
 
         modified = words[:i] + words[i+1:]
@@ -84,7 +125,8 @@ def explain_file(filepath):
         text = row["text"]
         language = row.get("language", "en")
 
-        sentiment, confidence, important_words = explain_text(text, language)
+        #sentiment, confidence, important_words = explain_text(text, language)
+        sentiment, confidence, important_words = explain_text(text)
 
         results.append({
             "text": text,
