@@ -165,22 +165,52 @@ def evaluate_dataset(file_path, models):
 #     }
 
 def save_results(results_list):
-    os.makedirs("results", exist_ok=True)
-
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-    # JSON file
-    json_path = f"results/evaluation_{timestamp}.json"
+    # Create structured directories
+    base_dir = "results"
+    eval_dir = os.path.join(base_dir, "evaluations")
+    os.makedirs(eval_dir, exist_ok=True)
+
+    # File names (consistent naming)
+    json_path = os.path.join(eval_dir, f"evaluation_{timestamp}.json")
+    csv_path = os.path.join(eval_dir, f"evaluation_{timestamp}.csv")
+
+    # Save JSON
     with open(json_path, "w") as f:
         json.dump(results_list, f, indent=4)
 
-    # CSV file
-    csv_path = f"results/evaluation_{timestamp}.csv"
+    # Save CSV
     df = pd.DataFrame(results_list)
     df = df.sort_values(by="bert_accuracy", ascending=False)
     df.to_csv(csv_path, index=False)
 
-    print(f"Results saved to:\n- {json_path}\n- {csv_path}")
+    print(f"\nResults saved to:")
+    print(f"- {json_path}")
+    print(f"- {csv_path}")
+
+    return {
+        "json": json_path,
+        "csv": csv_path
+    }
+
+# def save_results(results_list):
+#     os.makedirs("results", exist_ok=True)
+# 
+#     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+# 
+#     # JSON file
+#     json_path = f"results/evaluation_{timestamp}.json"
+#     with open(json_path, "w") as f:
+#         json.dump(results_list, f, indent=4)
+# 
+#     # CSV file
+#     csv_path = f"results/evaluation_{timestamp}.csv"
+#     df = pd.DataFrame(results_list)
+#     df = df.sort_values(by="bert_accuracy", ascending=False)
+#     df.to_csv(csv_path, index=False)
+# 
+#     print(f"Results saved to:\n- {json_path}\n- {csv_path}")
 
 def main():
     MODELS = {

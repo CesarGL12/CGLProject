@@ -67,14 +67,17 @@ document.addEventListener("DOMContentLoaded", function() {
     </div>
     {% endif %}
 
+    <p><em>Supports English, Spanish, and French automatically</em></p>
     <form method="POST">
-        <label for="language">Select Language:</label><br>
+        <!-- 
+<label for="language">Select Language:</label><br>
         <select name="language">
             <option value="en" {% if language == "en" %}selected{% endif %}>English</option>
             <option value="es" {% if language == "es" %}selected{% endif %}>Spanish</option>
             <option value="fr" {% if language == "fr" %}selected{% endif %}>French</option>
         </select>
         <br><br>
+ -->
         <textarea name="text" rows="5" placeholder="Enter text here...">{{ text }}</textarea>
         <button type="submit" name="analyze_text" class="btn btn-primary mt-2">Analyze</button>
     </form>
@@ -154,7 +157,8 @@ document.addEventListener("DOMContentLoaded", function() {
     <label>Select Dataset:</label><br>
     <select name="dataset" required>
         {% for d in datasets %}
-            <option value="{{ d }}">{{ d }}</option>
+            <!-- <option value="{{ d }}">{{ d }}</option> -->
+            <option value="{{ d }}">{{ d.capitalize() }}</option>
         {% endfor %}
     </select>
     <br><br>

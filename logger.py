@@ -6,7 +6,7 @@ def setup_logger():
     os.makedirs("results/logs", exist_ok=True)
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    log_file = f"results/logs/run_{timestamp}.log"
+    log_file = f"results/logs/evaluation_{timestamp}.log"
 
     logging.basicConfig(
         filename=log_file,

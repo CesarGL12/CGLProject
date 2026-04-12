@@ -68,7 +68,7 @@ def index():
     baseline = None
     important_words = None
     text = ""
-    language = "en"
+    #language = "en"
     error = None
 
     eval_result = None  # NEW
@@ -78,15 +78,17 @@ def index():
         # 🔹 CASE 1: Text analysis (your existing feature)
         if "analyze_text" in request.form:
             text = request.form.get("text", "").strip()
-            language = request.form.get("language", "en")
+            #language = request.form.get("language", "en")
 
             if not text:
                 error = "Please enter some text before analyzing."
             elif len(text) > 500:
                 error = "Text is too long (max 500 characters)."
             else:
-                result = predict_text(text, language)
-                explanation = explain_text(text, language)
+                #result = predict_text(text, language)
+                #explanation = explain_text(text, language)
+                result = predict_text(text)
+                explanation = explain_text(text)
 
                 prediction = result["prediction"]
                 confidence = result["confidence"]
@@ -118,7 +120,7 @@ def index():
         baseline=baseline,
         important_words=important_words,
         text=text,
-        language=language,
+        #language=language,
         error=error,
         eval_result=eval_result,   # NEW
         datasets=DATASETS.keys()  # NEW
