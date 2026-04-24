@@ -1,3 +1,5 @@
+import pandas as pd  # add at top
+
 from flask import Flask, request, render_template
 from src.prediction_service import predict_text, explain_text, baseline_predict
 
@@ -61,6 +63,12 @@ DATASETS = {
     "french": "data/sample/fr_sample.csv"
 }
 
+DATASET_INFO = {
+    "english": {"negative": 200, "neutral": 200, "positive": 200},
+    "spanish": {"negative": 200, "neutral": 200, "positive": 200},
+    "french": {"negative": 200, "neutral": 200, "positive": 200}
+}
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     prediction = None
@@ -70,9 +78,9 @@ def index():
     text = ""
     #language = "en"
     error = None
-
     eval_result = None  # NEW
-
+    dataset_rows = None
+    
     if request.method == "POST":
 
         # 🔹 CASE 1: Text analysis (your existing feature)
@@ -112,6 +120,26 @@ def index():
                     eval_result["dataset"] = dataset_name
                 except Exception as e:
                     error = f"Evaluation failed: {str(e)}"
+        
+        elif "view_dataset" in request.form:
+            dataset_name = request.form.get("dataset")
+            path = DATASETS.get(dataset_name)
+
+            if path:
+                try:
+                    df = pd.read_csv(path)
+
+                    # Convert numeric labels → text
+                    label_map = {0: "negative", 1: "neutral", 2: "positive"}
+
+                    df["label"] = df["label"].map(label_map)
+
+                    # Convert to list of dicts for Jinja
+                    dataset_rows = df.to_dict(orient="records")
+
+                except Exception as e:
+                    error = f"Failed to load dataset: {str(e)}"
+            
 
     return render_template(
         "index.html",
@@ -123,7 +151,9 @@ def index():
         #language=language,
         error=error,
         eval_result=eval_result,   # NEW
-        datasets=DATASETS.keys()  # NEW
+        datasets=DATASETS.keys(),  # NEW
+        dataset_info=DATASET_INFO,   # ✅ NEW
+        dataset_rows=dataset_rows  # NEW
     )
 
 if __name__ == "__main__":
