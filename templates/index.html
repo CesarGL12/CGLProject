@@ -2,6 +2,7 @@
 <html>
 <head>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Sentiment Analyzer</title>
     <style>
         body {
@@ -56,12 +57,9 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 
-<!-- <div class="container"> -->
 <div class="container mt-5">
     <h1>Multilingual Sentiment Analyzer</h1>
     <p>Compare AI model vs baseline + explanation</p>
-    
-    <!-- <p>DEBUG baseline: {{ baseline }}</p> -->
     
     {% if error %}
     <div style="color: red; margin-bottom: 15px;">
@@ -71,15 +69,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     <p><em>Supports English, Spanish, and French automatically</em></p>
     <form method="POST">
-        <!-- 
-<label for="language">Select Language:</label><br>
-        <select name="language">
-            <option value="en" {% if language == "en" %}selected{% endif %}>English</option>
-            <option value="es" {% if language == "es" %}selected{% endif %}>Spanish</option>
-            <option value="fr" {% if language == "fr" %}selected{% endif %}>French</option>
-        </select>
-        <br><br>
- -->
         <textarea name="text" rows="5" placeholder="Enter text here...">{{ text }}</textarea>
         <button type="submit" name="analyze_text" class="btn btn-primary mt-2">Analyze</button>
     </form>
@@ -191,75 +180,12 @@ document.addEventListener("DOMContentLoaded", function() {
         {% endfor %}
     </table>
     
-<!-- 
-    <p>
-    Baseline reasoning:
-    {% if baseline == "positive" %}
-        Found more positive keywords.
-    {% elif baseline == "negative" %}
-        Found more negative keywords.
-    {% else %}
-        No strong keywords found.
-    {% endif %}
-    </p>
- -->
-    
     <p>
     Baseline reasoning:
     Found {{ baseline_pos }} positive and {{ baseline_neg }} negative keywords.
     </p>
 </div>
 {% endif %}
-
-<!-- 
-<hr>
-
-<h2>Dataset Evaluation</h2>
-
-<form method="POST">
-    <label>Select Dataset:</label><br>
-    <select name="dataset" required>
-        {% for d in datasets %}
-            <!~~ <option value="{{ d }}">{{ d }}</option> ~~>
-            <option value="{{ d }}">{{ d.capitalize() }}</option>
-        {% endfor %}
-    </select>
-    <br><br>
-
-    <button type="submit" name="run_evaluation" class="btn btn-success mt-2">Run Evaluation</button>
-</form>
-
-</div>
-
-
-{% if eval_result %}
-<div class="alert alert-info mt-3">
-    <h3>Evaluation Results</h3>
-
-    <table class="table table-bordered text-center mt-3">
-        <tr>
-            <th>Dataset</th>
-            <th>Samples</th>
-            <th>BERT Accuracy</th>
-            <th>Baseline Accuracy</th>
-        </tr>
-
-        <tr>
-            <td>{{ eval_result.dataset }}</td>
-            <td>{{ eval_result.num_samples }}</td>
-            <td>{{ eval_result.bert_accuracy }}</td>
-            <td>{{ eval_result.baseline_accuracy }}</td>
-        </tr>
-    </table>
-</div>
-{% endif %}
-
-{% if eval_result and eval_result.error %}
-<div class="alert alert-danger">
-    {{ eval_result.error }}
-</div>
-{% endif %}
- -->
  
  <hr>
 
@@ -286,25 +212,6 @@ document.addEventListener("DOMContentLoaded", function() {
         {% endfor %}
     </table>
 </div>
-
-<!-- 
-<div class="card p-3 mb-4">
-    <h5>Run Evaluation</h5>
-
-    <form method="POST">
-        <label>Select Dataset:</label><br>
-        <select name="dataset" class="form-select mt-2" required>
-            {% for d in datasets %}
-                <option value="{{ d }}">{{ d.capitalize() }}</option>
-            {% endfor %}
-        </select>
-
-        <button type="submit" name="run_evaluation" class="btn btn-success mt-3">
-            Run Evaluation
-        </button>
-    </form>
-</div>
- -->
  
  <div class="card p-3 mb-4">
     <h5>Run Evaluation / View Dataset</h5>
@@ -350,6 +257,51 @@ document.addEventListener("DOMContentLoaded", function() {
     </table>
 </div>
 {% endif %}
+
+<canvas id="evaluationChart" class="mt-4"></canvas>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    {% if eval_result %}
+    
+    const bertAccuracy = {{ eval_result.bert_accuracy }};
+    const baselineAccuracy = {{ eval_result.baseline_accuracy }};
+    const datasetName = "{{ eval_result.dataset.capitalize() }}";
+
+    const ctx = document.getElementById('evaluationChart');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['BERT Model', 'Baseline Model'],
+            datasets: [{
+                label: 'Accuracy (' + datasetName + ')',
+                data: [bertAccuracy, baselineAccuracy],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Model Performance Comparison'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 1,
+                    title: {
+                        display: true,
+                        text: 'Accuracy'
+                    }
+                }
+            }
+        }
+    });
+
+    {% endif %}
+});
+</script>
 
 {% if dataset_rows %}
 <div class="card p-3 mt-4">
