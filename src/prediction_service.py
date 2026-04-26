@@ -56,27 +56,116 @@ def explain_text(text: str):
 def predict_label(text: str) -> str:
 
     return predict_text(text)["prediction"]
-    
 
-def baseline_predict(text: str) -> str:
-    """
-    Very simple baseline using keyword rules.
-    """
 
-    text_lower = text.lower()
 
-    positive_words = ["good", "great", "love", "excellent", "amazing"]
-    negative_words = ["bad", "terrible", "hate", "awful", "horrible"]
+import unicodedata
 
-    pos_count = sum(word in text_lower for word in positive_words)
-    neg_count = sum(word in text_lower for word in negative_words)
+def normalize(text):
+    return ''.join(
+        c for c in unicodedata.normalize('NFD', text)
+        if unicodedata.category(c) != 'Mn'
+    )
+
+def baseline_predict(text: str):
+    #text = text.lower()
+    text = normalize(text.lower())
+
+    KEYWORDS = {
+        "positive": [
+            "good", "great", "love", "excellent", "amazing", "happy",
+            "bueno", "genial", "excelente", "increíble", "amor", "feliz",
+            "bon", "génial", "excellent", "incroyable", "amour", "heureux"
+        ],
+        "negative": [
+            "bad", "terrible", "hate", "awful", "horrible", "worst",
+            "malo", "terrible", "horrible", "odio", "triste", "peor",
+            "mauvais", "terrible", "horrible", "haine", "triste", "pire"
+        ]
+    }
+
+    #pos_count = sum(word in text for word in KEYWORDS["positive"])
+    #neg_count = sum(word in text for word in KEYWORDS["negative"])
+    pos_count = sum(normalize(word) in text for word in KEYWORDS["positive"])
+    neg_count = sum(normalize(word) in text for word in KEYWORDS["negative"])
+
+    total = pos_count + neg_count
 
     if pos_count > neg_count:
-        return "Positive"
+        prediction = "positive"
     elif neg_count > pos_count:
-        return "Negative"
+        prediction = "negative"
     else:
-        return "Neutral"
+        prediction = "neutral"
+
+    #confidence = (max(pos_count, neg_count) / total) if total > 0 else 0
+    confidence = max(pos_count, neg_count) / (pos_count + neg_count + 2)
+
+    return {
+        "prediction": prediction,
+        "confidence": round(confidence, 4),
+        "pos_count": pos_count,
+        "neg_count": neg_count
+    }
+
+# def baseline_predict(text: str) -> str:
+#     """
+#     Multilingual rule-based baseline using keyword matching.
+#     Supports English, Spanish, and French.
+#     """
+# 
+#     text = text.lower()
+# 
+#     KEYWORDS = {
+#         "positive": [
+#             # English
+#             "good", "great", "love", "excellent", "amazing", "happy",
+#             # Spanish
+#             "bueno", "genial", "excelente", "increíble", "amor", "feliz",
+#             # French
+#             "bon", "génial", "excellent", "incroyable", "amour", "heureux"
+#         ],
+#         "negative": [
+#             # English
+#             "bad", "terrible", "hate", "awful", "horrible", "worst",
+#             # Spanish
+#             "malo", "terrible", "horrible", "odio", "triste", "peor",
+#             # French
+#             "mauvais", "terrible", "horrible", "haine", "triste", "pire"
+#         ]
+#     }
+# 
+#     #pos_count = sum(word in text for word in KEYWORDS["positive"])
+#     #neg_count = sum(word in text for word in KEYWORDS["negative"])
+#     pos_count = sum(f" {word} " in f" {text} " for word in KEYWORDS["positive"])
+#     neg_count = sum(f" {word} " in f" {text} " for word in KEYWORDS["negative"])
+# 
+#     if pos_count > neg_count:
+#         return "positive"
+#     elif neg_count > pos_count:
+#         return "negative"
+#     else:
+#         return "neutral"
+
+# def baseline_predict(text: str) -> str:
+#     """
+#     Very simple baseline using keyword rules.
+#     """
+# 
+#     text_lower = text.lower()
+# 
+#     positive_words = ["good", "great", "love", "excellent", "amazing"]
+#     negative_words = ["bad", "terrible", "hate", "awful", "horrible"]
+# 
+#     pos_count = sum(word in text_lower for word in positive_words)
+#     neg_count = sum(word in text_lower for word in negative_words)
+# 
+#     if pos_count > neg_count:
+#         return "Positive"
+#     elif neg_count > pos_count:
+#         return "Negative"
+#     else:
+#         return "Neutral"
 
 #def map_label(label):
 #    try:
