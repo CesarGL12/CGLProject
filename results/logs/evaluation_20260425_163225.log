@@ -1,0 +1,7 @@
+2026-04-25 16:32:25,755 - WARNING -  * Debugger is active!
+2026-04-25 16:32:25,777 - INFO -  * Debugger PIN: 968-688-425
+2026-04-25 16:32:33,426 - INFO - 127.0.0.1 - - [25/Apr/2026 16:32:33] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2026-04-25 16:32:33,466 - INFO - 127.0.0.1 - - [25/Apr/2026 16:32:33] "GET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2026-04-25 16:32:33,466 - INFO - 127.0.0.1 - - [25/Apr/2026 16:32:33] "[36mGET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2026-04-25 16:32:33,475 - INFO - 127.0.0.1 - - [25/Apr/2026 16:32:33] "GET /?__debugger__=yes&cmd=resource&f=console.png&s=qyDgW4ANz6VAaAM9pw7E HTTP/1.1" 200 -
+2026-04-25 16:32:33,513 - INFO - 127.0.0.1 - - [25/Apr/2026 16:32:33] "[36mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -

@@ -69,6 +69,21 @@ DATASET_INFO = {
     "french": {"negative": 200, "neutral": 200, "positive": 200}
 }
 
+BASELINE_KEYWORDS = {
+    "English": {
+        "positive": ["good", "great", "excellent"],
+        "negative": ["bad", "terrible", "worst"]
+    },
+    "Spanish": {
+        "positive": ["bueno", "excelente", "feliz"],
+        "negative": ["malo", "horrible", "odio"]
+    },
+    "French": {
+        "positive": ["bon", "excellent", "heureux"],
+        "negative": ["mauvais", "terrible", "haine"]
+    }
+}
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     prediction = None
@@ -80,6 +95,9 @@ def index():
     error = None
     eval_result = None  # NEW
     dataset_rows = None
+    baseline_confidence = None
+    baseline_pos = 0
+    baseline_neg = 0
     
     if request.method == "POST":
 
@@ -100,7 +118,12 @@ def index():
 
                 prediction = result["prediction"]
                 confidence = result["confidence"]
-                baseline = baseline_predict(text)
+                #baseline = baseline_predict(text)
+                baseline_result = baseline_predict(text)
+                baseline = baseline_result["prediction"]
+                baseline_confidence = baseline_result["confidence"]
+                baseline_pos = baseline_result["pos_count"]
+                baseline_neg = baseline_result["neg_count"]
 
                 if explanation["prediction"] == prediction:
                     important_words = explanation["important_words"]
@@ -146,6 +169,9 @@ def index():
         prediction=prediction,
         confidence=confidence,
         baseline=baseline,
+        baseline_confidence=baseline_confidence,
+        baseline_pos=baseline_pos,
+        baseline_neg=baseline_neg,
         important_words=important_words,
         text=text,
         #language=language,
@@ -153,7 +179,8 @@ def index():
         eval_result=eval_result,   # NEW
         datasets=DATASETS.keys(),  # NEW
         dataset_info=DATASET_INFO,   # ✅ NEW
-        dataset_rows=dataset_rows  # NEW
+        dataset_rows=dataset_rows,  # NEW
+        baseline_keywords=BASELINE_KEYWORDS
     )
 
 if __name__ == "__main__":

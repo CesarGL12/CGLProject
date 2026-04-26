@@ -61,6 +61,8 @@ document.addEventListener("DOMContentLoaded", function() {
     <h1>Multilingual Sentiment Analyzer</h1>
     <p>Compare AI model vs baseline + explanation</p>
     
+    <!-- <p>DEBUG baseline: {{ baseline }}</p> -->
+    
     {% if error %}
     <div style="color: red; margin-bottom: 15px;">
         {{ error }}
@@ -102,8 +104,23 @@ document.addEventListener("DOMContentLoaded", function() {
             
             <tr>
                 <td><strong>Baseline (Rule-Based)</strong></td>
-                <td>{{ baseline }}</td>
-                <td>N/A</td>
+                <!-- <td>{{ baseline.capitalize() }}</td> -->
+                <!-- <td>N/A</td> -->
+                <!-- <td>{{ baseline_confidence }}</td> -->
+                <td>
+                {% if baseline %}
+                    {{ baseline.capitalize() }}
+                {% else %}
+                    Unknown
+                {% endif %}
+                </td>
+                <td>
+                {% if baseline_confidence is not none %}
+                    {{ baseline_confidence }}
+                {% else %}
+                    N/A
+                {% endif %}
+                </td>
             </tr>
             
     </table>
@@ -148,6 +165,51 @@ document.addEventListener("DOMContentLoaded", function() {
 <div id="loading" style="display:none; text-align:center; margin-top:20px;">
     <p><strong>Running... please wait</strong></p>
 </div>
+
+{% if baseline_keywords %}
+<div class="card p-3 mt-3">
+    <h5>Baseline Model Logic</h5>
+
+    <p>
+        The baseline model uses keyword matching across English, Spanish, and French.
+        It counts positive and negative words and selects the dominant sentiment.
+    </p>
+
+    <table class="table table-bordered text-center mt-3">
+        <tr>
+            <th>Language</th>
+            <th>Positive Keywords</th>
+            <th>Negative Keywords</th>
+        </tr>
+
+        {% for lang, words in baseline_keywords.items() %}
+        <tr>
+            <td><strong>{{ lang }}</strong></td>
+            <td>{{ words.positive | join(", ") }}</td>
+            <td>{{ words.negative | join(", ") }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+<!-- 
+    <p>
+    Baseline reasoning:
+    {% if baseline == "positive" %}
+        Found more positive keywords.
+    {% elif baseline == "negative" %}
+        Found more negative keywords.
+    {% else %}
+        No strong keywords found.
+    {% endif %}
+    </p>
+ -->
+    
+    <p>
+    Baseline reasoning:
+    Found {{ baseline_pos }} positive and {{ baseline_neg }} negative keywords.
+    </p>
+</div>
+{% endif %}
 
 <!-- 
 <hr>
@@ -291,7 +353,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 {% if dataset_rows %}
 <div class="card p-3 mt-4">
-    <h5>Dataset Preview (All Rows)</h5>
+    <h5>Dataset Preview: {{ request.form.dataset.capitalize() }}</h5>
 
     <div style="max-height: 400px; overflow-y: scroll;">
         <table class="table table-bordered table-sm">
@@ -311,7 +373,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     {% else %}text-secondary
                     {% endif %}
                 ">
-                    {{ row.label }}
+                    {{ row.label.capitalize() }}
                 </td>
             </tr>
             {% endfor %}
