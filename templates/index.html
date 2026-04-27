@@ -93,9 +93,6 @@ document.addEventListener("DOMContentLoaded", function() {
             
             <tr>
                 <td><strong>Baseline (Rule-Based)</strong></td>
-                <!-- <td>{{ baseline.capitalize() }}</td> -->
-                <!-- <td>N/A</td> -->
-                <!-- <td>{{ baseline_confidence }}</td> -->
                 <td>
                 {% if baseline %}
                     {{ baseline.capitalize() }}
@@ -192,6 +189,41 @@ document.addEventListener("DOMContentLoaded", function() {
 <h2>Dataset Evaluation</h2>
 
 <div class="card p-3 mb-4">
+    <h5>What is Dataset Evaluation?</h5>
+
+    <p>
+        Dataset Evaluation tests how well the system performs on a collection of labeled text examples.
+        Each dataset contains sentences that are already marked as <strong>positive</strong>,
+        <strong>neutral</strong>, or <strong>negative</strong>.
+    </p>
+
+    <p>
+        The system runs both the <strong>BERT model</strong> and the <strong>baseline model</strong>
+        on this dataset and compares their predictions to the correct labels.
+    </p>
+
+    <h6>What do the metrics mean?</h6>
+
+    <ul>
+        <li>
+            <strong>Accuracy</strong>: The percentage of correct predictions made by the model.
+            <br>
+            Example: An accuracy of 0.85 means the model was correct 85% of the time.
+        </li>
+        <li>
+            <strong>Dataset</strong>: The language dataset being tested (English, Spanish, or French).
+        </li>
+        <li>
+            <strong>Total Samples</strong>: The number of text examples used in the evaluation.
+        </li>
+    </ul>
+
+    <p>
+        Higher accuracy means the model is performing better on that dataset.
+    </p>
+</div>
+
+<div class="card p-3 mb-4">
     <h5>Dataset Composition</h5>
 
     <table class="table table-bordered text-center mt-3">
@@ -213,7 +245,7 @@ document.addEventListener("DOMContentLoaded", function() {
     </table>
 </div>
  
- <div class="card p-3 mb-4">
+<div class="card p-3 mb-4">
     <h5>Run Evaluation / View Dataset</h5>
 
     <form method="POST">
@@ -234,6 +266,46 @@ document.addEventListener("DOMContentLoaded", function() {
             </button>
         </div>
     </form>
+</div>
+
+<div class="card p-3 mb-4">
+    <h5>System Extendability</h5>
+
+    <p>
+        This system is designed to be easily extended to support new datasets, languages, and models.
+    </p>
+
+    <h6>How to add your own dataset:</h6>
+    <ol>
+        <li>Create a dataset file (CSV or JSON format).</li>
+        <li>Include two fields:
+            <ul>
+                <li><strong>text</strong>: the sentence</li>
+                <li><strong>label</strong>: positive, neutral, or negative</li>
+            </ul>
+        </li>
+        <li>Place the file inside the <code>data/</code> directory.</li>
+        <li>Add the dataset name to the system so it appears in the dropdown.</li>
+        <li>Run evaluation to see performance results.</li>
+    </ol>
+
+    <h6>Possible Extensions:</h6>
+    <ul>
+        <li>
+            🌍 <strong>More Languages:</strong> Portuguese, Italian, German, etc.
+        </li>
+        <li>
+            🤖 <strong>Other Models:</strong> Replace or compare BERT with other models
+            such as RoBERTa or DistilBERT.
+        </li>
+        <li>
+            📊 <strong>More Metrics:</strong> Precision, Recall, and F1-score for deeper analysis.
+        </li>
+    </ul>
+
+    <p>
+        These extensions allow the system to grow and adapt to different use cases and datasets.
+    </p>
 </div>
 
 {% if eval_result %}
